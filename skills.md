@@ -1,196 +1,201 @@
 # SKILLS.md
 
 ## Project Skills
-ScoreBoard / Badminton Web Project
+Harness Scoreboard / Badminton Web Project
+
+Repository guide source:
+- `bigheadG/harness_scoreboard`
+- Follow the repo markdown files as the scoreboard project working handbook. citeturn765848view0
 
 ---
 
-## 1. Flask Web App 維護
-適用範圍：
+## 1. Flask web app maintenance
+Scope:
 - `web_scoreboard_control.py`
 - `web_scoreboard_viewer.py`
 
-技能內容：
-- 單檔 Flask app 維護
-- `render_template_string` / API route 調整
-- 表單、JSON API、檔案上傳
-- 靜態檔案與 `static/branding/` 資料管理
+Skills:
+- single-file Flask app maintenance
+- `render_template_string` page updates
+- JSON API design
+- file upload handling
+- simple persistent file storage
 
 ---
 
-## 2. MQTT 同步技能
-適用範圍：
+## 2. MQTT sync
+Scope:
 - score sync
 - color sync
 - reset sync
 - viewer meta refresh
 
-技能內容：
-- MQTT publish / reconnect
-- topic-based scoreboard state sync
-- paho-mqtt 整合
-- 控制端與 viewer 間的即時資料同步
+Skills:
+- paho-mqtt integration
+- reconnect handling
+- control-to-viewer sync
+- viewer refresh triggers
 
 ---
 
-## 3. RWD 前端技能
-適用範圍：
-- control 頁
-- viewer 頁
+## 3. Responsive web design
+Scope:
+- control page
+- viewer page
 
-技能內容：
-- 手機 / 平板 / 桌機版面適配
-- iPhone Safari safe-area 處理
-- 大按鈕 UI
-- 觸控互動優化
-- 橫式 / 直式版面切換
-- Fullscreen 展示型 UI
+Skills:
+- phone / tablet / desktop layout
+- fullscreen display layout
+- safe-area support
+- touch-friendly controls
+- portrait / landscape adaptation
 
 ---
 
-## 4. iPhone Safari 相容技能
-重點：
-- 禁止 double-tap zoom
+## 4. iPhone Safari compatibility
+Skills:
+- disable double-tap zoom
 - `touch-action: manipulation`
 - `viewport-fit=cover`
-- `user-scalable=no`
 - safe-area padding
-- 避免按鈕誤觸與放大
+- prevent accidental gesture interference
 
 ---
 
-## 5. Viewer 展示 UI 技能
-重點：
-- 左右隊名角落定位
-- 超大比分顯示
-- 跑馬燈展示
-- Logo 展示與隱藏
-- Fullscreen 狀態下的 topbar 控制
-- RWD for TV / laptop / tablet / phone
+## 5. Viewer display UI
+Skills:
+- left / right corner team name positioning
+- large score-first layout
+- marquee display
+- logo display and hide/show
+- fullscreen topbar behavior
+- live logo refresh support
 
 ---
 
-## 6. Control 操作 UI 技能
-重點：
-- Team 1 / Team 2 控制
+## 6. Control UI
+Skills:
+- Team 1 / Team 2 score controls
 - local swap / both swap
-- sync / reset / set
-- color / name editing
-- member list 選擇
-- next game 編輯
-- marquee 編輯
-- logo 上傳
-- viewer 顯示控制
+- sync / set / reset
+- team name / color editing
+- member management
+- next game editing
+- marquee editing
+- logo upload
+- viewer display toggles
 
 ---
 
-## 7. 檔案型資料持久化技能
-建議存放路徑：
+## 7. File-based persistence
+Recommended location:
 
-```bash
+```text
 static/branding/
 ```
 
-技能內容：
-- `.json` 儲存設定資料
-- `.txt` 儲存 marquee 文字
-- 圖片檔儲存 logo
-- 簡單、可人工編輯、易部署
-
-資料類型：
+File types:
 - `viewer_marquee.txt`
 - `viewer_ui.json`
 - `members.json`
-  - 每位成員建議結構：
-    ```json
-    {
-      "name": "王力宏",
-      "category": "正式會員"
-    }
-    ```
-  - `category` 建議值：
-    - `來賓`
-    - `正式會員`
-    - `臨打`
 - `next_game.json`
 - `viewer.*`
 
 ---
 
-## 8. Team / Member / Next Game 流程技能
-技能內容：
-- 從 member list 填入 team 名稱
-- 從 next game 左右邊帶入 team 名稱
-- 單打 / 雙打模式名稱組裝
-- 自動儲存與 optimistic update
-- 避免輪詢覆蓋新資料
-- 成員分類支援：
+## 8. Member / Team / Next Game data structures
+Recommended `members.json` structure:
+
+```json
+[
+  {
+    "name": "王力宏",
+    "category": "正式會員"
+  },
+  {
+    "name": "阿妹",
+    "category": "來賓"
+  },
+  {
+    "name": "伊朗",
+    "category": "臨打"
+  }
+]
+```
+
+Recommended category values:
+- `來賓`
+- `正式會員`
+- `臨打`
+
+Compatibility note:
+- older name-only arrays may exist
+- future code should normalize both old and new formats safely
+
+---
+
+## 9. Member category features
+Skills:
+- store member category in file
+- render category in member page
+- use category for filtering
+- use category for grouped dropdown display
+- use category badge in UI
+- use category counts / stats later if needed
+
+Future category UI ideas:
+- dropdown grouped by category
+- badge colors:
   - 來賓
   - 正式會員
   - 臨打
-- 未來可擴充：
-  - 依分類過濾下拉名單
-  - 依分類顯示不同 badge / 色彩
-  - 依分類做統計或排序
+- filter toggle by category
+- category summary cards
 
 ---
 
-## 9. 輪詢覆蓋問題處理技能
-這是本專案的重要技能點。
+## 10. Polling overwrite mitigation
+This is a critical project skill.
 
-問題來源：
-- control 頁會週期性呼叫 `/api/state`
-- next game 區塊會週期性呼叫 `/api/next_game`
-- 使用者剛修改時，後端尚未完全同步，舊資料可能被輪詢帶回
+Problem source:
+- control polls `/api/state`
+- next game polls `/api/next_game`
+- new UI selections can be overwritten before backend state catches up
 
-解法技能：
-- optimistic UI update
-- pending state 暫存
-- 暫停 polling 一小段時間
-- 等後端 state 追上後再恢復正常 render
+Mitigation skills:
+- optimistic update
+- pending state cache
+- temporary polling suspension
+- only clear pending state after backend data matches
 
 ---
 
-## 10. 檔案上傳技能
-目前用途：
-- viewer logo upload
-
-技能內容：
+## 11. Logo upload
+Skills:
 - `request.files`
-- 副檔名驗證
-- 取代舊 `viewer.*`
-- 回傳新 logo meta 資訊
-- viewer live refresh
+- extension validation
+- replace old `viewer.*`
+- return logo meta data
+- trigger viewer refresh
 
 ---
 
-## 11. systemd 部署技能
-服務：
+## 12. systemd deployment
+Services:
 - `scoreboard_control.service`
 - `scoreboard_viewer.service`
 
-技能內容：
-- 正式檔覆蓋前備份
-- restart / status 檢查
-- 維持 deploy 流程一致
-- 避免錯誤版本混入正式環境
+Skills:
+- back up before deploy
+- restart / status checks
+- keep deploy flow consistent
+- avoid mixing experimental files into production baseline
 
 ---
 
-## 12. 專案維護原則
-- 以使用者確認可用的版本為基線
-- 優先小修，不做大改
-- control 問題就修 control，不亂動 viewer
-- viewer 問題就修 viewer，不亂動 control
-- 實驗版不要直接當正式版
-- 每次修改都要可直接部署
-
----
-
-## 13. 建議後續可擴充技能
-- 多 court / 多場 next game
-- 排隊賽程表
-- 成員分類 badge / 篩選器 / 分組顯示
-- 比賽歷史紀錄
-- 控制頁管理帳號 / 權限
-- 匯入 / 匯出 member 名單
+## 13. Project maintenance principles
+- use the user-confirmed version as baseline
+- prefer targeted fixes over broad rewrites
+- fix control issues in control only
+- fix viewer issues in viewer only
+- keep markdown guides updated when project rules change
