@@ -58,6 +58,11 @@ web_scoreboard_viewer_rwd_teamname_bigger_logo_marquee_toggle_live_logo.py
 - Member 名單可新增 / 編輯 / 儲存
 - 資料落地到檔案
 - Team 1 / Team 2 / Next Game 都共用同一份 member source
+- 成員需支援分類：
+  - 來賓
+  - 正式會員
+  - 臨打
+- 未來可依分類做篩選、下拉選單分組、顯示標籤與統計
 
 ### T06. Viewer 跑馬燈
 - 跑馬燈文字可由 control 編輯
@@ -90,6 +95,9 @@ static/branding/
 - `viewer_marquee.txt`
 - `viewer_ui.json`
 - `members.json`
+  - 建議每位成員至少包含：
+    - `name`
+    - `category`（來賓 / 正式會員 / 臨打）
 - `next_game.json`
 - `viewer.png` / `viewer.svg` / `viewer.jpg` / `viewer.jpeg` / `viewer.webp`
 
@@ -125,6 +133,8 @@ sudo systemctl status scoreboard_viewer.service --no-pager
 - 語言切換正常
 - Team 1 / Team 2 名稱可儲存
 - Member 下拉可看到資料
+- Member 分類可正確儲存與顯示
+- 不同分類成員未來可做分組篩選
 - Next Game 可正常儲存
 - 跑馬燈儲存正常
 - Viewer UI toggle 正常

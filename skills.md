@@ -101,6 +101,17 @@ static/branding/
 - `viewer_marquee.txt`
 - `viewer_ui.json`
 - `members.json`
+  - 每位成員建議結構：
+    ```json
+    {
+      "name": "王力宏",
+      "category": "正式會員"
+    }
+    ```
+  - `category` 建議值：
+    - `來賓`
+    - `正式會員`
+    - `臨打`
 - `next_game.json`
 - `viewer.*`
 
@@ -113,6 +124,14 @@ static/branding/
 - 單打 / 雙打模式名稱組裝
 - 自動儲存與 optimistic update
 - 避免輪詢覆蓋新資料
+- 成員分類支援：
+  - 來賓
+  - 正式會員
+  - 臨打
+- 未來可擴充：
+  - 依分類過濾下拉名單
+  - 依分類顯示不同 badge / 色彩
+  - 依分類做統計或排序
 
 ---
 
@@ -171,7 +190,7 @@ static/branding/
 ## 13. 建議後續可擴充技能
 - 多 court / 多場 next game
 - 排隊賽程表
-- 成員分類（來賓 / 正式會員 / 臨打）
+- 成員分類 badge / 篩選器 / 分組顯示
 - 比賽歷史紀錄
 - 控制頁管理帳號 / 權限
 - 匯入 / 匯出 member 名單
